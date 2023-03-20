@@ -1,0 +1,10 @@
+.DS_Store
+.Trashes
+*.swp
+
+logs
+*.log
+npm-debug.log*
+
+node_modules
+.env
