@@ -21,4 +21,8 @@ const ModelSchema = new Schema({
 	}
 });
 
+ModelSchema.virtual('url').get(function () {
+	return `${this.instrument.url}/${this._id}`;
+});
+
 module.exports = mongoose.model('Model', ModelSchema);

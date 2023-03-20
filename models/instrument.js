@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const InstrumentSchema = new Schema({
-	name: { type: String, required: true, minLength: 1 },
+	name: { type: String, required: true, unique: true, minLength: 1, trim: true },
 	category: {
 		type: String,
 		required: true,
@@ -22,7 +22,8 @@ const InstrumentSchema = new Schema({
 });
 
 InstrumentSchema.virtual('url').get(function () {
-	return `/inventory/instrument/${this._id}`;
+	const kebabCaseName = this.name.replaceAll(' ', '-').toLowerCase();
+	return `/inventory/instrument/${kebabCaseName}`;
 });
 
 module.exports = mongoose.model('Instrument', InstrumentSchema);
