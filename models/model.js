@@ -5,7 +5,7 @@ const ModelSchema = new Schema({
 	name: { type: String, required: true, minLength: 1 },
 	instrument: { type: Schema.Types.ObjectId, ref: 'Instrument', required: true },
 	brand: { type: Schema.Types.ObjectId, ref: 'Brand', required: true },
-	description: { type: String, maxLength: 300 },
+	description: { type: String, trim: true, maxLength: 300 },
 	materials: { type: Map, of: String },
 	quantity: {
 		type: Number,
@@ -17,6 +17,8 @@ const ModelSchema = new Schema({
 	price: {
 		type: Number,
 		min: 0,
+		get: v => v.toFixed(2),
+		set: v => v.toFixed(2),
 		required: true,
 	}
 });
