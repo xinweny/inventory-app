@@ -1,0 +1,24 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const ModelSchema = new Schema({
+	name: { type: String, required: true, minLength: 1 },
+	instrument: { type: Schema.Types.ObjectId, ref: 'Instrument', required: true },
+	brand: { type: Schema.Types.ObjectId, ref: 'Brand', required: true },
+	description: { type: String, maxLength: 300 },
+	materials: { type: Map, of: String },
+	quantity: {
+		type: Number,
+		min: 0,
+		get: v => Math.round(v),
+		set: v => Math.round(v),
+		required: true,
+	},
+	price: {
+		type: Number,
+		min: 0,
+		required: true,
+	}
+});
+
+module.exports = mongoose.model('Model', ModelSchema);
