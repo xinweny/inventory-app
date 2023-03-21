@@ -5,8 +5,8 @@ const ModelSchema = new Schema({
 	name: { type: String, required: true, minLength: 1 },
 	instrument: { type: Schema.Types.ObjectId, ref: 'Instrument', required: true },
 	brand: { type: Schema.Types.ObjectId, ref: 'Brand', required: true },
-	description: { type: String, trim: true, maxLength: 300 },
-	materials: { type: Map, of: String },
+	description: { type: String, trim: true },
+	specs: { type: Map, of: String },
 	quantity: {
 		type: Number,
 		min: 0,

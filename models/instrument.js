@@ -8,6 +8,7 @@ const InstrumentSchema = new Schema({
 		required: true,
 		enum: [
 			'Pianos',
+			'Harps',
 			'Strings',
 			'Brass',
 			'Woodwinds',
