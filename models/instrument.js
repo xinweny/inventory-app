@@ -22,8 +22,7 @@ const InstrumentSchema = new Schema({
 });
 
 InstrumentSchema.virtual('url').get(function () {
-	const kebabCaseName = this.name.replaceAll(' ', '-').toLowerCase();
-	return `/inventory/instrument/${kebabCaseName}`;
+	return `/inventory/instrument/${this._id}`;
 });
 
 module.exports = mongoose.model('Instrument', InstrumentSchema);
