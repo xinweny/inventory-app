@@ -6,9 +6,12 @@ block content
       h1 Songbird Instruments
       p Welcome to #[em Songbird Instruments], an inventory management app for musical instruments.
 
-    div
-      p Our current inventory includes:
-      div 
-        p= `${count.brands} Brands`
-        p= `${count.instruments} types of Musical Instruments`
-        p= `${count.models} Instrument Models`
+    if error
+      div: p Error fetching counts.
+    else
+      div
+        p Our current inventory includes:
+        div 
+          p= `${count.brands} Brands`
+          p= `${count.instruments} types of Musical Instruments`
+          p= `${count.models} Instrument Models`
