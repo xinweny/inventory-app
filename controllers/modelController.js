@@ -30,7 +30,17 @@ exports.list = async (req, res, next) => {
 	}
 };
 
-exports.detail = (req, res) => {};
+exports.detail = async (req, res, next) => {
+	try {
+		const model = await Model.findById(req.params.id).populate('instrument brand');
+
+		console.log(model.specs);
+
+		res.render('model_detail', { title: 'Model Detail', model });
+	} catch (err) {
+		return next(err);
+	}
+};
 
 exports.createGET = (req, res) => {};
 

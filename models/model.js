@@ -24,7 +24,15 @@ const ModelSchema = new Schema({
 });
 
 ModelSchema.virtual('url').get(function () {
-	return `${this.instrument.url}/${this._id}`;
+	return `/inventory/model/${this._id}`;
+});
+
+ModelSchema.virtual('price_formatted').get(function () {
+	return `$${this.price}`;
+})
+
+ModelSchema.virtual('specs_obj').get(function () {
+	return Object.fromEntries(this.specs);
 });
 
 module.exports = mongoose.model('Model', ModelSchema);

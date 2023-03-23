@@ -1,0 +1,17 @@
+extends layout 
+
+block content 
+	h1= model.name
+	hr
+	p #[strong Instrument:] #{model.instrument.name}
+	p #[strong Brand:] #{model.brand.name}
+	p #[strong Price:] #{model.price_formatted}
+	p #[strong Quantity:] #{model.quantity}
+	hr
+	p= model.description
+	p #[strong Specifications]
+	table 
+		each val, key in model.specs_obj 
+			tr
+				th= key
+				td= val
