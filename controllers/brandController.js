@@ -30,7 +30,7 @@ exports.detail = async (req, res, next) => {
 	try {
 		const [brand, brandModels] = await Promise.all([
 			Brand.findById(req.params.id),
-			Model.find({ brand: req.params.id }).populate('instrument brand'),
+			Model.find({ brand: req.params.id }).populate('instrument'),
 		]);
 
 		res.render('brand_detail', { title: 'Brand Detail', brand, brandModels });

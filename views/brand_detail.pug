@@ -9,12 +9,12 @@ block content
 			tr 
 				th Model
 				th Instrument
-				th Price
+				th Price ($)
 				th Quantity
 		tbody 
 			each model in brandModels 
 				tr 
 					td: a(href=model.url)= model.name 
 					td: a(href=model.instrument.url)= model.instrument.name
-					td= model.price_formatted
+					td= model.price
 					td= model.quantity

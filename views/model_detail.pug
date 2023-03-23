@@ -13,5 +13,5 @@ block content
 	table 
 		each val, key in model.specs_obj 
 			tr
-				th= key
+				th= key.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
 				td= val

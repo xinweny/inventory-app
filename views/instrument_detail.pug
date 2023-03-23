@@ -1,0 +1,21 @@
+extends layout 
+
+block content 
+	h1= instrument.name
+	p #[strong Category:] #{instrument.category}
+
+	h2 Models
+	table 
+		thead 
+			tr 
+				th Model 
+				th Brand 
+				th Price ($)
+				th Quantity
+		tbody
+			each model in instrumentModels 
+				tr 
+					td: a(href=model.url)= model.name
+					td: a(href=model.brand.url)= model.brand.name 
+					td= model.price
+					td= model.quantity
