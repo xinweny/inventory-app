@@ -1,3 +1,5 @@
+const { body, validationResult } = require('express-validator');
+
 const Brand = require('../models/brand');
 const Model = require('../models/model');
 
@@ -39,9 +41,38 @@ exports.detail = async (req, res, next) => {
 	}
 };
 
-exports.createGET = (req, res) => {};
+exports.createGET = (req, res) => {
+	res.render('brand_form', { title: 'Create Brand' });
+};
 
-exports.createPOST = (req, res) => {};
+exports.createPOST = [
+	body('name').trim().isLength({ min: 1}).escape()
+		.withMessage('Name must be specified.'),
+	async (req, res, next) => {
+		const errors = validationResult(req);
+
+		if(!errors.isEmpty()) {
+			res.render('brand_form', {
+				title: 'Create Brand',
+				brand: req.body,
+				errors: errors.array(),
+			});
+
+			return;
+		}
+
+		const brand = new Brand({
+			name: req.body.name,
+		});
+
+		try {
+			brand.save();
+			res.redirect(brand.url);
+		} catch (err) {
+			return next(err);
+		}
+	},
+]
 
 exports.deleteGET = (req, res) => {};
 

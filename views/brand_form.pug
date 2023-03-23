@@ -1,0 +1,14 @@
+extends layout 
+
+block content
+	h1= title
+	form(method='POST' action='')
+		label(for='name') Name: 
+		input#name(
+			type='text'
+			placeholder='Brand name'
+			name='name'
+			required=true
+			value=brand ? brand.name : ''
+		)
+		button(type='submit') Create
