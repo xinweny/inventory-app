@@ -19,7 +19,16 @@ exports.index = async (req, res) => {
 	}
 };
 
-exports.list = (req, res) => {};
+exports.list = async (req, res, next) => {
+	try {
+		const models = await Model.find({}, 'name brand instrument price quantity')
+			.populate('brand instrument');
+		
+		res.render('model_list', { title: 'Model List', models });
+	} catch (err) {
+		return next(err);
+	}
+};
 
 exports.detail = (req, res) => {};
 
