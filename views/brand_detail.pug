@@ -1,0 +1,20 @@
+extends layout 
+
+block content 
+	h1= brand.name 
+
+	h2 Instrument models 
+	table
+		thead 
+			tr 
+				th Model
+				th Instrument
+				th Price
+				th Quantity
+		tbody 
+			each model in brandModels 
+				tr 
+					td: a(href=model.url)= model.name 
+					td: a(href=model.instrument.url)= model.instrument.name
+					td= model.price_formatted
+					td= model.quantity
