@@ -43,7 +43,25 @@ exports.detail = async (req, res, next) => {
 };
 
 exports.createGET = async (req, res) => {
+	const [brands, instrumentsByCategory] = await Promise.all([
+		Brand.find({}, 'name'),
+		Instrument.aggregate([
+			{ $sort: { name: 1 } },
+			{
+				$group: {
+					_id: "$category",
+					instruments: { $push: '$name' },
+				},
+			},
+			{ $sort: { _id: 1 } },
+		]),
+	]);
 
+	res.render('model_form', {
+		title: 'Create Model',
+		brands,
+		instruments: instrumentsByCategory,
+	});
 };
 
 exports.createPOST = (req, res) => {};
