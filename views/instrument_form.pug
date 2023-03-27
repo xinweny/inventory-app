@@ -8,7 +8,8 @@ block content
       input(
         type="text"
         id="name"
-        required="true"
+        name="name"
+        required
         value=instrument ? instrument.name : ''
       )
     
@@ -17,7 +18,7 @@ block content
         type="select"
         name="category"
         id="categories"
-        required="true"
+        required
       )
         option(value disabled selected hidden) Select category
         each category in categories

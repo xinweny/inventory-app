@@ -31,7 +31,13 @@ exports.list = async (req, res, next) => {
 			}, {})),
 		]);
 
-		res.render('instrument_list', { title: 'Instrument List', categories, counts })
+		console.log(counts);
+
+		res.render('instrument_list', {
+			title: 'Instrument List',
+			categories,
+			counts,
+		});
 	} catch (err) {
 		return next(err);
 	}
@@ -71,8 +77,11 @@ exports.createPOST = [
 		});
 
 		if(!errors.isEmpty()) {
-			res.render('brand_form', {
+			const categories = Instrument.schema.path('category').enumValues;
+
+			res.render('instrument_form', {
 				title: 'Create Instrument',
+				categories,
 				instrument,
 				errors: errors.array(),
 			});
