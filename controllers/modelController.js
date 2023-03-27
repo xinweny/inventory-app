@@ -17,7 +17,7 @@ exports.index = async (req, res) => {
 	} catch (err) {
 		res.render('index', { title: 'Home', error: err });
 	}
-}; 
+};
 
 exports.list = async (req, res, next) => {
 	try {
