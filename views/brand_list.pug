@@ -6,4 +6,4 @@ block content
 		each brand in brands 
 			li
 				a(href=brand.url)= brand.name
-				|  (#{counts[brand._id.toString()]})
+				|  (#{counts[brand._id] ? counts[brand._id] : 0})

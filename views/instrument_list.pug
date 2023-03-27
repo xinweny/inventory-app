@@ -7,4 +7,4 @@ block content
 		ul: each instrument in category.instruments
 			li
 				a(href=instrument.url)= instrument.name 
-				|  (#{counts[instrument._id] ? counts[instrument._id.toString()] : 0})
+				|  (#{counts[instrument._id] ? counts[instrument._id] : 0})
