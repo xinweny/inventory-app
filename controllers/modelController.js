@@ -44,13 +44,13 @@ exports.detail = async (req, res, next) => {
 
 exports.createGET = async (req, res) => {
 	const [brands, instrumentsByCategory] = await Promise.all([
-		Brand.find({}, 'name'),
+		Brand.find({}).sort({ name: 1 }),
 		Instrument.aggregate([
 			{ $sort: { name: 1 } },
 			{
 				$group: {
 					_id: "$category",
-					instruments: { $push: '$name' },
+					instruments: { $push: '$$ROOT' },
 				},
 			},
 			{ $sort: { _id: 1 } },
@@ -60,7 +60,7 @@ exports.createGET = async (req, res) => {
 	res.render('model_form', {
 		title: 'Create Model',
 		brands,
-		instruments: instrumentsByCategory,
+		categories: instrumentsByCategory,
 	});
 };
 

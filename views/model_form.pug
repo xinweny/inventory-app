@@ -4,4 +4,75 @@ block content
   h1= title
 
   form(method="POST" action="")
-    label(for="")
+    label(for="name") Name:
+      input(
+        type="text"
+        id="name"
+        name="name"
+        required
+        value=model ? model.name : ''
+      )
+
+    label(for="instruments") Instrument: 
+      select(
+        type="select"
+        id="instruments"
+        name="instrumentId"
+        required
+      )
+        option(value disabled selected hidden) Select instrument
+        each category in categories
+          optgroup(label=category._id)
+            each instrument in category.instruments
+              option(
+                value=instrument._id
+                selected=(model && model.instrument._id.toString() === instrument._id.toString() ? 'selected' : false)
+              )= instrument.name
+      
+    label(for="brands") Brand: 
+      select(
+        type="select"
+        id="brands"
+        name="brandId"
+        required
+      )
+        option(value disabled selected hidden) Select brand
+        each brand in brands
+          option(
+            value=brand._id
+            selected=(model && model.brand._id.toString() === brand._id.toString() ? 'selected' : false)
+          )= brand.name
+
+    label(for="quantity") Quantity:
+      input(
+        type="number"
+        id="quantity"
+        name="quantity"
+        value=model ? model.quantity : ''
+        required
+        min=0
+        step=1
+        pattern="\d*"
+      )
+
+    label(for="price") Price ($):
+      input(
+        type="number"
+        id="price"
+        name="price"
+        placeholder="123.45"
+        value=model ? model.price : ''
+        required
+        min=0.00
+        step=0.01
+        pattern="^\d+\.\d{0,2}$"
+      )
+
+    label(for="description") Description: 
+      textarea(
+        id="description"
+        name="description"
+        value=model ? model.description : ''
+      )
+
+    button(type="submit") Create
