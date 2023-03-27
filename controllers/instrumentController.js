@@ -65,10 +65,15 @@ exports.createPOST = [
 	async (req, res, next) => {
 		const errors = validationResult(req);
 
+		const instrument = new Instrument({
+			name: req.body.name,
+			category: req.body.category,
+		});
+
 		if(!errors.isEmpty()) {
 			res.render('brand_form', {
 				title: 'Create Instrument',
-				instrument: req.body,
+				instrument,
 				errors: errors.array(),
 			});
 
@@ -76,11 +81,6 @@ exports.createPOST = [
 		}
 
 		try {
-			const instrument = new Instrument({
-				name: req.body.name,
-				category: req.body.category,
-			});
-
 			await instrument.save();
 			res.redirect(instrument.url);
 		} catch (err) {

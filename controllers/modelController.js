@@ -1,6 +1,9 @@
+const { body, validationResult } = require('express-validator');
+
 const Model = require('../models/model');
 const Instrument = require('../models/instrument');
 const Brand = require('../models/brand');
+const { model } = require('mongoose');
 
 exports.index = async (req, res) => {
 	try {
@@ -64,7 +67,64 @@ exports.createGET = async (req, res) => {
 	});
 };
 
-exports.createPOST = (req, res) => {};
+exports.createPOST = [
+	body('name', 'Name must be specified.')
+		.trim().isLength({ min: 1 }).escape(),
+	body('brand', 'Brand must be specified.')
+		.trim().isLength({ min: 1 }).escape(),
+	body('instrument', 'Brand must be specified.')
+		.trim().isLength({ min: 1 }).escape(),
+	body('quantity', 'Quantity must be specified.')
+		.trim().isLength({ min: 1 }).escape().toInt(10),
+	body('price', 'Price must be specified.')
+		.trim().isLength({ min: 1 }).escape().toFloat(),
+	body('description').trim().escape(),
+	async (req, res, next) => {
+		const errors = validationResult(req);
+
+		const model = new Model({
+			name: req.body.name,
+			brand: req.body.brand,
+			instrument: req.body.instrument,
+			quantity: req.body.quantity,
+			price: req.body.price,
+			description: req.body.description,
+			specs: {},
+		});
+
+		if (!errors.isEmpty()) {
+			const [brands, instrumentsByCategory] = await Promise.all([
+				Brand.find({}).sort({ name: 1 }),
+				Instrument.aggregate([
+					{ $sort: { name: 1 } },
+					{
+						$group: {
+							_id: "$category",
+							instruments: { $push: '$$ROOT' },
+						},
+					},
+					{ $sort: { _id: 1 } },
+				]),
+			]);
+
+			res.render('model_form', {
+				title: 'Create Model',
+				brands,
+				categories: instrumentsByCategory,
+				model,
+			});
+
+			return;
+		}
+
+		try {
+			await model.save();
+			res.redirect(model.url);
+		} catch (err) {
+			return next(err);
+		}
+	},
+];
 
 exports.deleteGET = (req, res) => {};
 

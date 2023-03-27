@@ -51,10 +51,14 @@ exports.createPOST = [
 	async (req, res, next) => {
 		const errors = validationResult(req);
 
+		const brand = new Brand({
+			name: req.body.name,
+		});
+
 		if(!errors.isEmpty()) {
 			res.render('brand_form', {
 				title: 'Create Brand',
-				brand: req.body,
+				brand,
 				errors: errors.array(),
 			});
 
@@ -62,10 +66,6 @@ exports.createPOST = [
 		}
 
 		try {
-			const brand = new Brand({
-				name: req.body.name,
-			});
-
 			await brand.save();
 			res.redirect(brand.url);
 		} catch (err) {

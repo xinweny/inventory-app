@@ -27,3 +27,8 @@ block content
           )= category 
 
     button(type="submit") Create
+
+  if errors 
+    ul: for error in errors
+      li!= error.msg
+  
