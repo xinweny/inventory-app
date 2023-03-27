@@ -1,3 +1,5 @@
+const { body, validationResult } = require('express-validator');
+
 const Instrument = require('../models/instrument');
 const Model = require('../models/model');
 
@@ -48,9 +50,18 @@ exports.detail = async (req, res, next) => {
 	}
 };
 
-exports.createGET = (req, res) => {};
+exports.createGET = (req, res) => {
+	const categories = Instrument.schema.path('category').enumValues;
 
-exports.createPOST = (req, res) => {};
+	res.render('instrument_form', {
+		title: 'Create Instrument',
+		categories: categories.sort((a, b) => (b < a) ? 1 : -1),
+	});
+};
+
+exports.createPOST = async (req, res) => [
+	
+];
 
 exports.deleteGET = (req, res) => {};
 

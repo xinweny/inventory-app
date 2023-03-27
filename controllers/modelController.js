@@ -42,7 +42,9 @@ exports.detail = async (req, res, next) => {
 	}
 };
 
-exports.createGET = (req, res) => {};
+exports.createGET = async (req, res) => {
+
+};
 
 exports.createPOST = (req, res) => {};
 

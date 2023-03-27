@@ -1,0 +1,28 @@
+extends layout 
+
+block content
+  h1= title
+  form(method="POST" action="")
+    label(for="name") Name:
+      input(
+        type="text"
+        id="name"
+        required="true"
+        value=instrument ? instrument.name : ''
+      )
+    
+    label(for="categories") Category: 
+      select(
+        type="select"
+        name="category"
+        id="categories"
+        required="true"
+      )
+        option(value disabled selected hidden) Select category...
+        each category in categories
+          option(
+            value=category
+            selected=(instrument && instrument.category === category ? 'selected' : false)
+          )= category 
+
+    button(type="submit") Create
