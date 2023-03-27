@@ -46,7 +46,7 @@ exports.createGET = (req, res) => {
 };
 
 exports.createPOST = [
-	body('name').trim().isLength({ min: 1}).escape()
+	body('name').trim().isLength({ min: 1 }).escape()
 		.withMessage('Name must be specified.'),
 	async (req, res, next) => {
 		const errors = validationResult(req);
@@ -61,12 +61,12 @@ exports.createPOST = [
 			return;
 		}
 
-		const brand = new Brand({
-			name: req.body.name,
-		});
-
 		try {
-			brand.save();
+			const brand = new Brand({
+				name: req.body.name,
+			});
+
+			await brand.save();
 			res.redirect(brand.url);
 		} catch (err) {
 			return next(err);

@@ -59,8 +59,34 @@ exports.createGET = (req, res) => {
 	});
 };
 
-exports.createPOST = async (req, res) => [
-	
+exports.createPOST = [
+	body('name').trim().isLength({ min: 1 }).escape()
+		.withMessage('Name must be specified.'),
+	async (req, res, next) => {
+		const errors = validationResult(req);
+
+		if(!errors.isEmpty()) {
+			res.render('brand_form', {
+				title: 'Create Instrument',
+				instrument: req.body,
+				errors: errors.array(),
+			});
+
+			return;
+		}
+
+		try {
+			const instrument = new Instrument({
+				name: req.body.name,
+				category: req.body.category,
+			});
+
+			await instrument.save();
+			res.redirect(instrument.url);
+		} catch (err) {
+			return next(err);
+		}
+	},
 ];
 
 exports.deleteGET = (req, res) => {};
