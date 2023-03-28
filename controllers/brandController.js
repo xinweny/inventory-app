@@ -93,7 +93,7 @@ exports.deletePOST = async (req, res, next) => {
 	try {
 		await Promise.all([
 			Brand.findByIdAndRemove(req.body.brand_id),
-			Model.findOneAndRemove({ brand: req.body.brand_id }).populate('instrument'),
+			Model.findOneAndRemove({ brand: req.body.brand_id }),
 		]);
 
 		res.redirect('/inventory/brands');
