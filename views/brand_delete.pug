@@ -8,10 +8,11 @@ block content
 
     h4 Models 
 
-    each model in brandModels 
-      div
-        a(href=model.url) #{model.name}
-        |  - #{model.instrument.name} - #{model.price_formatted}
+    ol
+      each model in brandModels 
+        li
+          a(href=model.url) #{model.name}
+          |  - #{model.instrument.name} - #{model.price_formatted}
   
   hr
   
