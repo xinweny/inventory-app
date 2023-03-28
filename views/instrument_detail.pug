@@ -2,6 +2,11 @@ extends layout
 
 block content 
 	h1= instrument.name
+
+	div 
+		a(href=`${instrument.url}/edit`) Update
+		a(href=`${instrument.url}/delete`) Delete
+
 	p #[strong Category:] #{instrument.category}
 
 	h2 Models

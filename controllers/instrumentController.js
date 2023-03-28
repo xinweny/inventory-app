@@ -98,9 +98,35 @@ exports.createPOST = [
 	},
 ];
 
-exports.deleteGET = (req, res) => {};
+exports.deleteGET = async (req, res, next) => {
+	try {
+		const [instrument, instrumentModels] = await Promise.all([
+			Instrument.findById(req.params.id),
+			Model.find({ instrument: req.params.id }).populate('brand'),
+		]);
 
-exports.deletePOST = (req, res) => {};
+		res.render('instrument_delete', {
+			title: 'Delete Instrument',
+			instrument,
+			instrumentModels,
+		});
+	} catch (err) {
+		return next(err);
+	}
+};
+
+exports.deletePOST = async (req, res, next) => {
+	try {
+		await Promise.all([
+			Instrument.findByIdAndRemove(req.body.instrument_id),
+			Model.findOneAndRemove({ instrument: req.body.instrument_id }),
+		]);
+
+		res.redirect('/inventory/instruments');
+	} catch (err) {
+		return next(err);
+	}
+};
 
 exports.updateGET = (req, res) => {};
 

@@ -1,0 +1,30 @@
+extends layout 
+
+block content 
+  h1= `Delete ${instrument.name}`
+
+  if instrumentModels.length 
+    p #[strong WARNING! The following #{instrumentModels.length} models will also be deleted:]
+
+    h4 Models 
+
+    ol
+      each model in instrumentModels 
+        li
+          a(href=model.url) #{model.name}
+          |  - #{model.brand.name} - #{model.price_formatted}
+  
+  hr
+  
+  p #[strong Are you sure you want to delete this instrument?]
+  form(method='POST' action='')
+      div.form-group
+        input#instrument-id.form-control(
+          type='hidden'
+          name='instrument_id'
+          required
+          value=instrument._id
+        )
+
+      button.btn.btn-primary(type='submit') Delete #{instrument.name}
+
