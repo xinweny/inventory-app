@@ -1,0 +1,19 @@
+extends layout 
+
+block content 
+  h1= `Delete ${model.name}`
+  p #{model.brand.name} - #{model.instrument.name}
+  p #[strong Price:] #{model.price_formatted}
+  p #[strong Quantity:] #{model.quantity}
+
+  p #[strong Are you sure you want to delete this model?]
+  form(method='POST' action='')
+      .form-group
+        input#model-id.form-control(
+          type='hidden'
+          name='model_id'
+          required
+          value=model._id
+        )
+
+      button.btn.btn-primary(type='submit') Delete #{model.name}

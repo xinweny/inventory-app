@@ -2,11 +2,16 @@ extends layout
 
 block content 
 	h1= model.name
+	div 
+		a(href=`${model.url}/edit`) Update
+		a(href=`${model.url}/delete`) Delete
 	hr
+
 	p #[strong Instrument:] #{model.instrument.name}
 	p #[strong Brand:] #{model.brand.name}
 	p #[strong Price:] #{model.price_formatted}
 	p #[strong Quantity:] #{model.quantity}
+
 	hr
 	p= model.description
 	p #[strong Specifications]

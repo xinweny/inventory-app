@@ -126,9 +126,28 @@ exports.createPOST = [
 	},
 ];
 
-exports.deleteGET = (req, res) => {};
+exports.deleteGET = async (req, res, next) => {
+	try {
+		const model = await Model.findById(req.params.id).populate('brand').populate('instrument');
 
-exports.deletePOST = (req, res) => {};
+		res.render('model_delete', {
+			title: 'Delete Model',
+			model,
+		});
+	} catch (err) {
+		return next(err);
+	}
+};
+
+exports.deletePOST = async (req, res, next) => {
+	try {
+		await Model.findByIdAndRemove(req.body.model_id);
+
+		res.redirect('/inventory/models');
+	} catch (err) {
+		return next(err);
+	}
+};
 
 exports.updateGET = (req, res) => {};
 
