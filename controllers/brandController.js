@@ -20,8 +20,6 @@ exports.list = async (req, res, next) => {
 			}, {})),
 		]);
 
-		console.log(counts);
-
 		res.render('brand_list', { title: 'Brand List', brands, counts });
 	} catch (err) {
 		return next(err);
@@ -74,9 +72,35 @@ exports.createPOST = [
 	},
 ]
 
-exports.deleteGET = (req, res) => {};
+exports.deleteGET = async (req, res, next) => {
+	try {
+		const [brand, brandModels] = await Promise.all([
+			Brand.findById(req.params.id),
+			Model.find({ brand: req.params.id }).populate('instrument'),
+		]);
 
-exports.deletePOST = (req, res) => {};
+		res.render('brand_delete', {
+			title: 'Delete Brand',
+			brand,
+			brandModels,
+		});
+	} catch (err) {
+		return next(err);
+	}
+};
+
+exports.deletePOST = async (req, res, next) => {
+	try {
+		await Promise.all([
+			Brand.findByIdAndRemove(req.body.brand_id),
+			Model.findOneAndRemove({ brand: req.body.brand_id }).populate('instrument'),
+		]);
+
+		res.redirect('/inventory/brands');
+	} catch (err) {
+		return next(err);
+	}
+};
 
 exports.updateGET = (req, res) => {};
 

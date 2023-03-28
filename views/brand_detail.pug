@@ -3,7 +3,12 @@ extends layout
 block content 
 	h1= brand.name 
 
-	h2 Instrument models 
+	div 
+		a(href=`${brand.url}/edit`) Update
+		a(href=`${brand.url}/delete`) Delete
+
+	h2 Instrument models
+
 	table
 		thead 
 			tr 
